@@ -10,9 +10,9 @@ line1	LINE_NUMBER(20)
 		LINE_LENGTH(line1, line1end)
 		.byte _RAND,_USR,_LPAREN,_1,_6,_5,_1,_4,126,143,1,4,0,0,_RPAREN,_EOL
 line1end
-		.byte _EOL	; end of program
 
 display
+	.byte _EOL	; end of program
 	.fill 32,_SPACE
 	.byte _EOL
 	.fill 32,_SPACE

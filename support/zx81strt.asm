@@ -5,6 +5,7 @@
 #include "support/rom.asm"
 #include "support/tokens.asm"
 #include "support/charcode.asm"
+#include "support/keycode.asm"
 #include "support/sysvars.asm"
 
 ;; 10 REM 
