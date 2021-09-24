@@ -1,7 +1,20 @@
 ;; exproc.asm
 ;  Processes keys in execution mode
 
-;; key pressed is in A
+;**********************************
+; EXPROC
+;   Processes execute mode
+;**********************************
+; Inputs:
+;   A   decoded keypress
+;
+; Outputs:
+;   None
+;
+; Side effects:
+;   None
+;**********************************
 EXPROC
-		RET
-
+    PUSH    AF
+    POP     AF
+    RET

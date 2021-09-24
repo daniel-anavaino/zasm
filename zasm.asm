@@ -2,8 +2,26 @@
 ;; ZASM.ASM
 ;;   Interactive assembler and debugger for ZX81
 
+;; Passing conventions:
+;
+;	SETS/PRINTS/similar
+;		A	byte input 1	preserved
+;		B	byte input 2	preserved
+;		BC	word input 1	preserved
+;		D	byte output
+;		DE	word output
+;		HL	pointer input	points to next address upon return if relevant
+;		
+;	GETS/FUNCTIONS/similar
+;		A	byte input 1	not preserved
+;		B	byte input 2	not preserved
+;		BC	word input 1	not preserved
+;		A	byte output
+;		BC	word output
+;		HL	pointer input	points to next address upon return if relevant
+;		
 ;; While it will be more memory efficient to hijack parts of the ROMs editing
-;; and listing routines, to start with we'll just right it from scratch.
+;; and listing routines, to start with we'll just write it from scratch.
 
 ;; Using vi commands for editing with a navigation, insert, and :run mode
 ;;
@@ -36,21 +54,22 @@
 #include "zasmmacs.asm"
 #include "zasmequs.asm"
 
-		RESET_TIMER
+		CALL	RESET_TIMER
 		; set print position to display file + 1
 ;		LD		HL,(D_FILE)	; get current start of display file
 ;		INC		HL
 ;		LD		(DF_CC),HL
 		LD		A,_EOL
 		CALL	PRINT
-		SET_MODE(navmode)
+		LD		A,navmode
+		CALL	SET_MODE
 		LD		A,$FF      ; make the first keystroke ff
 		                   ; we do this because GETKEY is blocking
 						   ; and we want the first entry into the 
 						   ; loop to setup the status line
 MAIN_LOOP
 		LD		B,A		; save A because GET_MODE is destructive
-		GET_MODE
+		CALL	GET_MODE
 		LD		HL,status_line_mode  ; set HL so we can update the mode in each piece below
 		CP		navmode
 		JR		NZ,NOTNAV
@@ -79,6 +98,7 @@ MAIN_UPDATE
 #include "navproc.asm"
 #include "insproc.asm"
 #include "exproc.asm"
+#include "zasmgnrl.asm"
 #include "zasmprnt.asm"
 #include "zasmvars.asm"
 
