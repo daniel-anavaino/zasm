@@ -37,5 +37,4 @@ STATUS_MODE_UPDATE_NOTINS
 STATUS_POS_UPDATE
         LD      HL,status_line_location
         LD      A,(S_POSN)
-        LD      
         RET

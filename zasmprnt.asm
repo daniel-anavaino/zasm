@@ -9,14 +9,13 @@ ZASM_DEC_PRINT
     ; first check if it's zero
     CP      0
     JR      NZ,ZASM_DEC_PRINT_NOT_ZERO
-    ADD     _0
+    ADD     A,_0
     CALL    ZASM_PRINT
     RET
 ZASM_DEC_PRINT_NOT_ZERO
     ; its only a byte, so it can't be larger than 255, so
     ; start at 100 and work out the number of each power of 10
 
-    LD      
     CP      100
     JR      C,ZASM_DEC_PRINT_TENS   ; if carry, then jump to tens
 
