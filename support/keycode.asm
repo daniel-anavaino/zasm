@@ -1,5 +1,3 @@
 ;;
 ;; KEYCODE.ASM
 ;;    SPECIAL KEYS
-
-_EDIT	.equ $75

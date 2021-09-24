@@ -59,6 +59,7 @@ display
 	.byte _EOL
 	.fill 32,_SPACE
 	.byte _EOL
+bottom_line
 	.fill 32,_SPACE
 	.byte _EOL
 variables	.byte $80

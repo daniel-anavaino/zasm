@@ -24,6 +24,7 @@
 ;;
 ;; exmode:
 ;;   R - RUN
+;;	 B - BREAK
 ;;   S - SAVE
 ;;   enter - STEP
 ;;   J - LOAD
@@ -32,81 +33,54 @@
 #define AUTORUN 0
 #include "support/zx81strt.asm"
 
-#define GET_MODE	LD HL,mode\ LD	A,(HL)
-#define SET_MODE(m)	LD HL,mode\ LD A,m\ LD (HL),A
+#include "zasmmacs.asm"
+#include "zasmequs.asm"
 
-;; modes
-navmode		 .equ 0
-insmode 	 .equ 1
-exmode		 .equ 2
-
-nokeypressed .equ 0
-keypressed 	 .equ 1
-
-
-		LD		HL,D_FILE	; get current start of display file
-		LD		C,(HL)
-		INC		HL
-		LD		B,(HL)
-		LD		HL,DF_CC	; get address of print position
-		LD		(HL),C		; set print position to start of display file
-		INC		HL
-		LD		(HL),B
+		RESET_TIMER
+		; set print position to display file + 1
+;		LD		HL,(D_FILE)	; get current start of display file
+;		INC		HL
+;		LD		(DF_CC),HL
 		LD		A,_EOL
 		CALL	PRINT
-INLOOP	CALL	KEYBOARD ; get keypress - 2 bytes
-		LD		B,H
-		LD		C,L
-		LD		D,C
-		INC		D		; if L == $ff, no key pressed
-		JR		Z,KEYUP
-		JP		KEYDOWN
-KEYUP	LD		HL,keystate
-		LD		A,nokeypressed
-		LD		(HL),A
-		JP		INLOOP
-KEYDOWN	CALL	DECODE	; decode to character
-		LD		A,(HL)
-		LD		B,A
-		LD		HL,keystate
-		LD		A,(HL)
-		CP		keypressed	; if key was already down, don't process it
-		JR		Z,INLOOP
-		LD		A,keypressed
-		LD		(HL),A
-		GET_MODE
-		CP		navmode
-		JR		Z,NAVPROC
-		CP		insmode
-		JR		Z,INSPROC
-		CP		exmode
-		JR		Z,EXPROC
-		JP		INLOOP
-
-;; key pressed is in B
-NAVPROC	
-		LD	A,B
-		CP	_I
-		JR	Z,ENABLE_INSMODE
-		JP	INLOOP
-
-ENABLE_INSMODE
-		SET_MODE(insmode)
-		JP	INLOOP
-		
-INSPROC
-		LD	A,B
-		CP	_EDIT
-		JR	Z,ENABLE_NAVMODE
-		CALL	PRINT
-		JP	INLOOP
-ENABLE_NAVMODE
 		SET_MODE(navmode)
-		JP INLOOP
-		
-EXPROC
-		JP	INLOOP
-mode		 .byte navmode
-keystate	 .byte 0
+		LD		A,$FF      ; make the first keystroke ff
+		                   ; we do this because GETKEY is blocking
+						   ; and we want the first entry into the 
+						   ; loop to setup the status line
+MAIN_LOOP
+		LD		B,A		; save A because GET_MODE is destructive
+		GET_MODE
+		LD		HL,status_line_mode  ; set HL so we can update the mode in each piece below
+		CP		navmode
+		JR		NZ,NOTNAV
+		LD		(HL),_N | $80
+		LD		A,B
+		CALL	NAVPROC
+		JR		MAIN_UPDATE
+NOTNAV	CP		insmode
+		JR		NZ,NOTINS
+		LD		(HL),_I | $80
+		LD		A,B
+		CALL	INSPROC
+		JR		MAIN_UPDATE
+NOTINS	CP		exmode
+		JR		NZ,MAIN_LOOP
+		LD		(HL),_COLON
+		LD		A,B
+		CALL	EXPROC
+MAIN_UPDATE
+		CALL 	STATUS_LINE_UPDATE
+		CALL 	GETKEY  ; GETKEY handles the cursor blinking since it's blocking
+		JR		MAIN_LOOP
+
+#include "status.asm"
+#include "getkey.asm"
+#include "navproc.asm"
+#include "insproc.asm"
+#include "exproc.asm"
+#include "zasmprnt.asm"
+#include "zasmvars.asm"
+
 #include "support/zx81end.asm"
 
