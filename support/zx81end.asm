@@ -63,5 +63,5 @@ bottom_line
 	.fill 32,_SPACE
 	.byte _EOL
 variables	.byte $80
-
+basic_end
 	.end

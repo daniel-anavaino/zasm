@@ -26,15 +26,15 @@
 ;   None
 ;**********************************
 NAVPROC
-        CP      _H
+        CP      _EDIT
         JR      Z,NAVPROC_LEFT
         CP	_I
         JR	Z,NAVPROC_ENABLE_INS
-        CP      _J
+        CP      _DOWN
         JR      Z,NAVPROC_DOWN
-        CP      _K
+        CP      _UP
         JR      Z,NAVPROC_UP
-        CP      _L
+        CP      _RIGHT
         JR      Z,NAVPROC_RIGHT
         RET
 
@@ -46,13 +46,17 @@ NAVPROC_ENABLE_INS
 	RET
 
 NAVPROC_LEFT
+        CALL    PREVIOUS_COLUMN
         RET
 
 NAVPROC_DOWN
+        CALL    NEXT_LINE
         RET
 
 NAVPROC_UP
+        CALL    PREVIOUS_LINE
         RET
 
 NAVPROC_RIGHT
+        CALL    NEXT_COLUMN
         RET

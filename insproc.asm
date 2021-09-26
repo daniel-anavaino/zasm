@@ -16,7 +16,7 @@
 INSPROC
 		CP	    _EDIT       ; exit mode when EDIT key is pressed
 		JR	    Z,INSPROC_ENABLE_NAV
-		CALL	PRINT
+		CALL	ZASM_PRINT
 		RET
 INSPROC_ENABLE_NAV  ; enable navigation mode when exiting insert mode
         PUSH    AF

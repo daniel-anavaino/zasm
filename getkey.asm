@@ -30,7 +30,7 @@ GETKEY
 GETKEY_MAIN_LOOP
         ;; check for expired timer
         ; load timer into HL
-		LD      HL,cursortimer
+        LD      HL,cursortimer
         ; decrement timer
         DEC     (HL)
         JR      Z,GETKEY_TIMER_EXPIRED
@@ -43,34 +43,36 @@ GETKEY_TIMER_EXPIRED
 GETKEY_UPDATE_TIMER
         ; check for expired timer
         CP      1
-		JR		NZ,NO_BLINK
+        JR	NZ,NO_BLINK
         ; invert character to current display position
-        LD      HL,(DF_CC)
-		LD		A,(HL)
-		XOR		$80
-		LD		(HL),A
-		CALL    RESET_TIMER
+        LD      HL,(cursor_posn)
+        LD	A,(HL)
+        XOR	$80
+        LD	(HL),A
+        CALL    RESET_TIMER
 NO_BLINK
         CALL	KEYBOARD ; get keypress - 2 bytes
-		LD		B,H
-		LD		C,L
-		LD		D,C
-		INC		D		; if L == $ff, no key pressed
-		JR		Z,KEYUP
-		JP		KEYDOWN
-KEYUP	LD		HL,keystate
-		LD		A,nokeypressed
-		LD		(HL),A
-		JP		GETKEY_MAIN_LOOP
-KEYDOWN	CALL	DECODE	; decode to character
-		LD		A,(HL)
-		LD		B,A
-		LD		HL,keystate
-		LD		A,(HL)
-		CP		keypressed	; if key was already down, don't process it
-		JR		Z,GETKEY_MAIN_LOOP
-		LD		A,keypressed
-		LD		(HL),A
+        LD	B,H
+        LD	C,L
+        LD	D,C
+        INC	D		; if L == $ff, no key pressed
+        JR	Z,KEYUP
+        JP	KEYDOWN
+KEYUP	
+        LD	HL,keystate
+        LD	A,nokeypressed
+        LD	(HL),A
+        JP	GETKEY_MAIN_LOOP
+KEYDOWN	
+        CALL	DECODE	; decode to character
+        LD	A,(HL)
+        LD	B,A
+        LD	HL,keystate
+        LD	A,(HL)
+        CP	keypressed	; if key was already down, don't process it
+        JR	Z,GETKEY_MAIN_LOOP
+        LD	A,keypressed
+        LD	(HL),A
         LD      A,B
         POP     HL
         POP     DE

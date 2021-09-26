@@ -9,3 +9,5 @@ nokeypressed .equ 0
 keypressed 	 .equ 1
 
 blinktime    .equ $ffff
+col_number   .equ S_POSN
+line_number  .equ S_POSN+1

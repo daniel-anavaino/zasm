@@ -1,9 +1,11 @@
 ;; ZASMVARS.ASM
 ; Variable defintions for ZASM
 
-keystate .byte 0
+program_line    .word 0
+program_end     .word   basic_end
+keystate    .byte 0
 cursortimer .word 0
-
+cursor_posn .word   0
 status_line_format
 status_line_mode    ; Inverse N,I or regular :
             .byte _SPACE

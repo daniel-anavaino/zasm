@@ -7,7 +7,8 @@
 ;	SETS/PRINTS/similar
 ;		A	byte input 1	preserved
 ;		B	byte input 2	preserved
-;		BC	word input 1	preserved
+;		AF	word input 1	preserved
+;		BC	word input 2	preserved
 ;		D	byte output
 ;		DE	word output
 ;		HL	pointer input	points to next address upon return if relevant
@@ -48,7 +49,7 @@
 ;;   J - LOAD
 ;;   shift-1 exit exmode
 
-#define AUTORUN 0
+#define AUTORUN line1
 #include "support/zx81strt.asm"
 
 #include "zasmmacs.asm"
@@ -56,17 +57,20 @@
 
 		CALL	RESET_TIMER
 		; set print position to display file + 1
-;		LD		HL,(D_FILE)	; get current start of display file
-;		INC		HL
-;		LD		(DF_CC),HL
-		LD		A,_EOL
-		CALL	PRINT
+		LD		HL,(D_FILE)	; get current start of display file
+		INC		HL
+		LD		(DF_CC),HL
+		LD		(cursor_posn),HL
 		LD		A,navmode
 		CALL	SET_MODE
 		LD		A,$FF      ; make the first keystroke ff
 		                   ; we do this because GETKEY is blocking
 						   ; and we want the first entry into the 
 						   ; loop to setup the status line
+		LD		A,0
+		LD		(line_number),A
+		LD		A,0
+		LD		(col_number),A
 MAIN_LOOP
 		LD		B,A		; save A because GET_MODE is destructive
 		CALL	GET_MODE
