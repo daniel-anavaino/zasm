@@ -55,10 +55,17 @@
 #include "zasmmacs.asm"
 #include "zasmequs.asm"
 
+		PUSH	AF
+		PUSH	BC
+		PUSH	DE
+		PUSH	HL
+		PUSH	IX
+		PUSH	IY
 		CALL	RESET_TIMER
 		; set print position to display file + 1
 		LD		HL,(D_FILE)	; get current start of display file
-		INC		HL
+		LD		BC,5
+		ADD		HL,BC
 		LD		(DF_CC),HL
 		LD		(cursor_posn),HL
 		LD		A,navmode
@@ -80,6 +87,8 @@ MAIN_LOOP
 		LD		(HL),_N | $80
 		LD		A,B
 		CALL	NAVPROC
+        CP      _X
+        JR      Z,MAIN_EXIT
 		JR		MAIN_UPDATE
 NOTNAV	CP		insmode
 		JR		NZ,NOTINS
@@ -93,10 +102,20 @@ NOTINS	CP		exmode
 		LD		A,B
 		CALL	EXPROC
 MAIN_UPDATE
+		CALL	SCREEN_UPDATE
 		CALL 	STATUS_LINE_UPDATE
 		CALL 	GETKEY  ; GETKEY handles the cursor blinking since it's blocking
 		JR		MAIN_LOOP
-
+MAIN_EXIT
+		POP		IY
+		POP		IX
+		POP		HL
+		POP		DE
+		POP		BC
+		POP		AF
+		RET
+		
+#include "screen.asm"
 #include "status.asm"
 #include "getkey.asm"
 #include "navproc.asm"

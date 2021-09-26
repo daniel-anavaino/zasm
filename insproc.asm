@@ -16,7 +16,10 @@
 INSPROC
 		CP	    _EDIT       ; exit mode when EDIT key is pressed
 		JR	    Z,INSPROC_ENABLE_NAV
-		CALL	ZASM_PRINT
+		CP		_L		; LD
+		JR		NZ,INSPROC_NOT_LD
+INSPROC_NOT_LD
+;		CALL	ZASM_PRINT
 		RET
 INSPROC_ENABLE_NAV  ; enable navigation mode when exiting insert mode
         PUSH    AF
