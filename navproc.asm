@@ -26,9 +26,9 @@
 ;   None
 ;**********************************
 NAVPROC
-        CP      _EDIT
+        CP      _LEFT
         JR      Z,NAVPROC_LEFT
-        CP	_I
+        CP	_EDIT
         JR	Z,NAVPROC_ENABLE_INS
         CP      _DOWN
         JR      Z,NAVPROC_DOWN
