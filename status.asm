@@ -99,14 +99,27 @@ STATUS_POS_UPDATE
         LD      A,(line_number)
         INC     A
         LD      HL,status_line_location
-        CALL    ZASM_DEC_PRINT
+        CALL    ZASM_PRINT_DEC
         ; print comma
         LD      A,_COMMA
         CALL    ZASM_PRINT_RAW
         ; print column number
         LD      A,(col_number)
         INC     A
-        CALL    ZASM_DEC_PRINT
+        CALL    ZASM_PRINT_DEC
+        ; fill address field with 4 blanks
+        LD      A,_SPACE
+        LD      B,4
+        LD      HL,status_line_address
+        CALL    ZASM_FILL_PRINT
+        ; print MSB of program_line in memory
+        LD      BC,(program_line)
+        LD      A,B
+        LD      HL,status_line_address
+        CALL    ZASM_PRINT_HEX_BYTE
+        ; print LSB of program_line in memory
+        LD      A,C
+        CALL    ZASM_PRINT_HEX_BYTE
         POP     HL
         POP     BC
         POP     AF

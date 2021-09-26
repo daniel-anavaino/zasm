@@ -34,7 +34,7 @@ ZASM_PRINT_END
     RET
 
 ;**********************************
-; ZASM_DEC_PRINT
+; ZASM_PRINT_DEC
 ;   Outputs the value in A in decimal starting at HL
 ;   and returns with HL pointing to the next position
 ;**********************************
@@ -48,26 +48,26 @@ ZASM_PRINT_END
 ; Side effects:
 ;   HL  points to next position
 ;**********************************
-ZASM_DEC_PRINT
+ZASM_PRINT_DEC
     PUSH    AF
     PUSH    BC
     CALL    ZASM_BYTE_TO_BCD
     LD      A,B
     AND     $0F
-    JR      Z,ZASM_DEC_PRINT_TENS
+    JR      Z,ZASM_PRINT_DEC_TENS
     ADD     A,_0
     CALL    ZASM_PRINT_RAW
-ZASM_DEC_PRINT_TENS
+ZASM_PRINT_DEC_TENS
     LD      A,C
     AND     $F0
-    JR      Z,ZASM_DEC_PRINT_ONES
+    JR      Z,ZASM_PRINT_DEC_ONES
     RRA     ; move to lower nibble
     RRA
     RRA
     RRA
     ADD     A,_0
     CALL    ZASM_PRINT_RAW
-ZASM_DEC_PRINT_ONES
+ZASM_PRINT_DEC_ONES
     LD      A,C
     AND     $0F
     ADD     A,_0
@@ -211,7 +211,7 @@ ZASM_PRINT_RAW
     RET
 
 ;**********************************
-; ZASM_FILL_MEM
+; ZASM_FILL_PRINT
 ;   Fills the area pointed at in HL
 ;   with B values of A
 ;**********************************
@@ -245,3 +245,56 @@ ZASM_FILL_PRINT_EXIT
     POP     BC
     POP     AF
     RET
+
+;**********************************
+; ZASM_PRINT_HEX_BYTE
+;   Outputs the value in A at HL
+;**********************************
+; Inputs:
+;   A   value to print
+;   HL  address to start print at
+;
+; Outputs:
+;   HL
+;
+; Side effects:
+;   None
+;**********************************
+ZASM_PRINT_HEX_BYTE
+    PUSH    BC
+    LD      B,A
+    ; upper nibble
+    RRA
+    RRA
+    RRA
+    RRA
+    CALL    ZASM_PRINT_HEX_NIBBLE
+    ; lower nibble
+    LD      A,B
+    CALL    ZASM_PRINT_HEX_NIBBLE
+    LD      A,B
+    POP     BC
+    RET
+
+;**********************************
+; ZASM_PRINT_HEX_NIBBLE
+;   Outputs the value in A at HL
+;**********************************
+; Inputs:
+;   A   nibble to print
+;   HL  address to start print at
+;
+; Outputs:
+;   HL
+;
+; Side effects:
+;   (HL)
+;   A has the upper nibble stripped
+;**********************************
+ZASM_PRINT_HEX_NIBBLE
+    AND     $0F
+    ADD     A,_0
+    LD      (HL),A
+    INC     HL
+    RET
+

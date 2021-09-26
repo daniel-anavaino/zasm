@@ -84,6 +84,8 @@ NEXT_COLUMN
     CALL    UPDATE_CURSOR
     JR      NEXT_COLUMN_NO_WRAP
 NEXT_COLUMN_WRAP
+    LD      A,0
+    LD      (col_number),A
     CALL    NEXT_LINE
 NEXT_COLUMN_NO_WRAP
     POP     AF
@@ -149,6 +151,8 @@ PREVIOUS_COLUMN
     CALL    UPDATE_CURSOR
     JR      PREVIOUS_COLUMN_NO_UNWRAP
 PREVIOUS_COLUMN_UNWRAP
+    LD      A,31
+    LD      (col_number),A
     CALL    PREVIOUS_LINE
 PREVIOUS_COLUMN_NO_UNWRAP
     POP     AF
@@ -217,6 +221,10 @@ CCP_INNER_LOOP
     DEC     A
     JR      NZ,CCP_OUTER_LOOP
 CCP_UPDATE_CURSOR
+    LD      BC,0
+    LD      A,(col_number)
+    LD      C,A
+    ADD     HL,BC
     CALL    UPDATE_CURSOR
     POP     AF
     POP     BC
