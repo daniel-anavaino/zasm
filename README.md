@@ -99,8 +99,8 @@ a fine example as well as the \*proc.asm files). Happy to have issues and pull r
 I've tried to make the things that are very ZASM specific be prefixed by "zasm" and the
 things I might try to reuse be prefixed by something else descriptive (the "z80" files
 being an example). The files that are reusable when writing loadable ZX81 assembly code are in
-the support/ directory. Note that I've also tried to follow 8.3 file naming conventions, although
-I've failed along those lines with no issues from TASM (e.g. z80opcodes.asm).
+the [support/](support/) directory. Note that I've also tried to follow 8.3 file naming conventions, although
+I've failed along those lines with no issues from TASM (e.g. [z80opcodes.asm](z80opcodes.asm).
 
 ### Subroutine and Label Names
 
