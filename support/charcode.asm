@@ -1,9 +1,22 @@
-;;
-;; CHARCODE.ASM
-;;   Definitions for the character codes since it's not ASCII
+;; charcode.asm
+;     Definitions for the character codes since it's not ASCII
+
+; Graphic block names are as follows:
+; _GR_abcd
+;   where a is position 0,0, b is 0,1, c is 1,0, and d is 1,1
+;   and a 0 means white, 1 means black, and 2 means gray
 
 _SPACE     .equ $00
-
+_GR_1000   .equ $01
+_GR_0100   .equ $02
+_GR_1100   .equ $03
+_GR_0010   .equ $04
+_GR_1010   .equ $05
+_GR_0110   .equ $06
+_GR_1110   .equ $07
+_GR_2222   .equ $08
+_GR_0022   .equ $09
+_GR_2200   .equ $0A
 _QUOTE     .equ $0B
 _POUND     .equ $0C
 _DOLLAR    .equ $0D
@@ -60,6 +73,9 @@ _Z         .equ $3F
 _RND       .equ $40
 _INKEYS    .equ $41
 _PI        .equ $42
+
+; $43 - $6F unused
+
 _UP        .equ $70
 _DOWN      .equ $71
 _LEFT      .equ $72
@@ -67,9 +83,18 @@ _RIGHT     .equ $73
 _GRAPHICS  .equ $74
 _EDIT      .equ $75
 _NEWLINE   .equ $76
+_EOL .equ _NEWLINE
 _RUBOUT    .equ $77
 _K_L_MODE  .equ $78
 _FUNCTION  .equ $79
 
+; $7A to $7E unused
 
-_EOL .equ $76
+_CURSOR    .equ $7F
+
+; Every character after this is an inverse
+; of the previous definition with the high bit
+; set.
+; This includes the graphics, so a solid block is
+; _SPACE | $80, and _GR_0110 | $80 is equivalent to
+; _GR_1001. Clive and his team were quite clever.

@@ -107,6 +107,16 @@ MAIN_UPDATE
 		CALL 	GETKEY  ; GETKEY handles the cursor blinking since it's blocking
 		JR		MAIN_LOOP
 MAIN_EXIT
+		LD		HL,bottom_line
+		LD		A,_SPACE
+		LD		B,32
+		CALL	ZASM_FILL_PRINT
+MAIN_KEY_PRESSED
+        CALL	KEYBOARD ; get keypress - 2 bytes
+        INC	L		; if L == $ff, no key pressed
+        JR	Z,MAIN_NOKEY_PRESSED
+        JP	MAIN_KEY_PRESSED
+MAIN_NOKEY_PRESSED
 		POP		IY
 		POP		IX
 		POP		HL
@@ -115,15 +125,16 @@ MAIN_EXIT
 		POP		AF
 		RET
 		
+#include "exproc.asm"
+#include "getkey.asm"
+#include "insproc.asm"
+#include "navproc.asm"
 #include "screen.asm"
 #include "status.asm"
-#include "getkey.asm"
-#include "navproc.asm"
-#include "insproc.asm"
-#include "exproc.asm"
 #include "zasmgnrl.asm"
 #include "zasmprnt.asm"
 #include "zasmvars.asm"
+#include "z80emu.asm"
 
 #include "support/zx81end.asm"
 

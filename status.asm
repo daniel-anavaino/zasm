@@ -90,23 +90,23 @@ STATUS_POS_UPDATE
         PUSH    AF
         PUSH    BC
         PUSH    HL
-        ; fill position field with 5 blanks
-        LD      A,_SPACE
-        LD      B,5
-        LD      HL,status_line_location
-        CALL    ZASM_FILL_PRINT
-        ; print line number
-        LD      A,(line_number)
-        INC     A
-        LD      HL,status_line_location
-        CALL    ZASM_PRINT_DEC
-        ; print comma
-        LD      A,_COMMA
-        CALL    ZASM_PRINT_RAW
-        ; print column number
-        LD      A,(col_number)
-        INC     A
-        CALL    ZASM_PRINT_DEC
+        ; ; fill position field with 5 blanks
+        ; LD      A,_SPACE
+        ; LD      B,5
+        ; LD      HL,status_line_location
+        ; CALL    ZASM_FILL_PRINT
+        ; ; print line number
+        ; LD      A,(line_number)
+        ; INC     A
+        ; LD      HL,status_line_location
+        ; CALL    ZASM_PRINT_DEC
+        ; ; print comma
+        ; LD      A,_COMMA
+        ; CALL    ZASM_PRINT_RAW
+        ; ; print column number
+        ; LD      A,(col_number)
+        ; INC     A
+        ; CALL    ZASM_PRINT_DEC
         ; fill address field with 4 blanks
         LD      A,_SPACE
         LD      B,4
