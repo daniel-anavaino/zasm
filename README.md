@@ -2,6 +2,11 @@
 # ZASM
 Z80 Interpeter/Assembler for the Sinclair ZX81 + 16K RAM Pack
 
+```
+This repo is under a lot of change right now by me. If you have changes you'd like to make, please
+create an issue and then coordinate with me rather than making changes and requesting a pull - 
+we will all be a lot happier.
+```
 The goal for this is a Z80 editor/emulator that feels like the ZX81 BASIC editor with single step
 debugging, and the ability to save both the source as well as save a separate loadable program
 that implements the source.
@@ -52,7 +57,9 @@ Also, don't be shy with PUSH and POP to preserve registers. Just note that Z80 o
     PUSH A    ; invalid
 
 ## Coding Standards
-Each subroutine should have the follwing header:
+**Imporant! Spaces only. Indents (tabs) are 4 spaces.**
+
+Each subroutine should have the following header:
   ```
   ;**********************************
   ; <routine name>
@@ -69,7 +76,7 @@ Each subroutine should have the follwing header:
   ;**********************************
   ```
   
-No tabs! Just spaces. That said, the "tab stops" should be 4 characters.
+As emphasied above: **No tabs! Just spaces.** That said, the "tab stops" should be 4 characters.
 Always indent 4 spaces before any opcode (required by TASM as well as
 gentlemanly behavior). 
 
