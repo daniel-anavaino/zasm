@@ -89,13 +89,13 @@ starting with zasm.asm as the parent. Imagine a EE writing software -
 that's what this looks like. So when you add a file, you need to include
 it somewhere in the chain - either in zasm.asm or in something included
 in zasm.asm. Just be sure that it doesn't get doubly included (see z80emu.asm
-for an example of an overarching include) as well as its include in zasm.asm.
+for an example of an overarching include).
 
 ## Naming Conventions
 ### File Names
 You can see by looking at the file names that it's still pretty *ad hoc*. I've tried
 to organize the names by function, but it's horribly inconsistent at this point (screen.asm is
-a fine example as well as the *proc.asm files). Happy to have issues and pull requests along those lines. That said,
+a fine example as well as the \*proc.asm files). Happy to have issues and pull requests along those lines. That said,
 I've tried to make the things that are very ZASM specific be prefixed by "zasm" and the
 things I might try to reuse be prefixed by something else descriptive (the "z80" files
 being an example). The files that are reusable when writing loadable ZX81 assembly code are in
