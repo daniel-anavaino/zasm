@@ -16,7 +16,7 @@ that implements the source.
 ## Nota Bene
 This is a work in progress. I only published this because my friend JCQ wanted to see
 what I was up to. Current development is under Windows 10 via the Parallels environment under
-MacOS. Only three levels of emulation. Seems like a win.
+MacOS with the EightyOne emulator as target.
 
 The source is compatible with the Telemark Assembler (TASM). It's shareware but seems to be
 abandoned at this point. I've included a copy in the tools/ directory that I grabbed from
