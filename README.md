@@ -2,6 +2,8 @@
 # ZASM
 Z80 Interpeter/Assembler for the Sinclair ZX81 + 16K RAM Pack
 
+ZX81 Emulator Tape File: [zasm.p](zasm.p)
+
 ```
 This repo is under a lot of change right now by me. If you have changes you'd like to make, please
 create an issue and then coordinate with me rather than making changes and requesting a pull - 
