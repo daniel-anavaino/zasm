@@ -1,8 +1,7 @@
-;;
-;; ZASM.ASM
-;;   Interactive assembler and debugger for ZX81
+;; zasm.asm
+;   Interactive assembler and debugger for ZX81
 
-;; Passing conventions:
+; Passing conventions:
 ;
 ;   SETS/PRINTS/similar
 ;   	A -  byte input 1 (preserved)
@@ -21,33 +20,12 @@
 ;   	BC - word output
 ;   	HL - pointer input points to next address upon return if relevant
 ;		
-;; While it will be more memory efficient to hijack parts of the ROMs editing
-;; and listing routines, to start with we'll just write it from scratch.
-
-;; Using vi commands for editing with a navigation, insert, and :run mode
-;;
-;; navmode:
-;;  H/shift-5 LEFT
-;;	J/shift-6 DOWN
-;;  K/shift-7 UP
-;;  L/shift-8 RIGHT
-;;  I INSERT
-;;  A APPEND
-;;  $(SHIFT-U) EOL
-;;  0 BOL
-;;  DD DELETE LINE
-;;  P  PUT
-;;
-;; insmode:
-;;  SHIFT-1 exit insmode
-;;
-;; exmode:
-;;   R - RUN
-;;	 B - BREAK
-;;   S - SAVE
-;;   enter - STEP
-;;   J - LOAD
-;;   shift-1 exit exmode
+; While it would be more memory efficient to hijack parts of the ROM's editing
+; and listing routines, to start with we'll just write it from scratch.
+;
+; Use ZX81 BASIC navigation and editing keys for editing/inserting code.
+;
+; TBD: Single step (arrow keys?) and RUN
 
 #define AUTORUN line1
 #include "support/zx81strt.asm"
