@@ -2,6 +2,11 @@
 # ZASM
 Z80 Interpeter/Assembler for the Sinclair ZX81 + 16K RAM Pack
 
+```
+This repo is under a lot of change right now by me. If you have changes you'd like to make, please
+create an issue and then coordinate with me rather than making changes and requesting a pull - 
+we will all be a lot happier.
+```
 The goal for this is a Z80 editor/emulator that feels like the ZX81 BASIC editor with single step
 debugging, and the ability to save both the source as well as save a separate loadable program
 that implements the source.
@@ -52,7 +57,9 @@ Also, don't be shy with PUSH and POP to preserve registers. Just note that Z80 o
     PUSH A    ; invalid
 
 ## Coding Standards
-Each subroutine should have the follwing header:
+**Imporant! Spaces only. Indents (tabs) are 4 spaces.**
+
+Each subroutine should have the following header:
   ```
   ;**********************************
   ; <routine name>
@@ -69,7 +76,7 @@ Each subroutine should have the follwing header:
   ;**********************************
   ```
   
-No tabs! Just spaces. That said, the "tab stops" should be 4 characters.
+As emphasied above: **No tabs! Just spaces.** That said, the "tab stops" should be 4 characters.
 Always indent 4 spaces before any opcode (required by TASM as well as
 gentlemanly behavior). 
 
@@ -82,18 +89,18 @@ starting with zasm.asm as the parent. Imagine a EE writing software -
 that's what this looks like. So when you add a file, you need to include
 it somewhere in the chain - either in zasm.asm or in something included
 in zasm.asm. Just be sure that it doesn't get doubly included (see z80emu.asm
-for an example of an overarching include) as well as its include in zasm.asm.
+for an example of an overarching include).
 
 ## Naming Conventions
 ### File Names
 You can see by looking at the file names that it's still pretty *ad hoc*. I've tried
 to organize the names by function, but it's horribly inconsistent at this point (screen.asm is
-a fine example as well as the *proc.asm files). Happy to have issues and pull requests along those lines. That said,
+a fine example as well as the \*proc.asm files). Happy to have issues and pull requests along those lines. That said,
 I've tried to make the things that are very ZASM specific be prefixed by "zasm" and the
 things I might try to reuse be prefixed by something else descriptive (the "z80" files
 being an example). The files that are reusable when writing loadable ZX81 assembly code are in
-the support/ directory. Note that I've also tried to follow 8.3 file naming conventions, although
-I've failed along those lines with no issues from TASM (e.g. z80opcodes.asm).
+the [support/](support/) directory. Note that I've also tried to follow 8.3 file naming conventions, although
+I've failed along those lines with no issues from TASM (e.g. [z80opcodes.asm](z80opcodes.asm).
 
 ### Subroutine and Label Names
 
