@@ -27,12 +27,12 @@ I haven't found the manual to be inaccurate.
 ## Building
 Execute the `build.bat` DOS batch file from a command (CMD) shell. It's trival - just one line
 that calls TASM with appropriate parameters. The output is zasm.p which is a tape file that is
-loadable using the [EightyOne ZX81 emulator](https://docs.libretro.com/library/eightyone/). At this point (2021-10-1) is hasn't been tested
-on actual hardware.
+loadable using the [EightyOne ZX81 emulator](https://docs.libretro.com/library/eightyone/).
+At this point (2021-10-1) it hasn't been tested on actual hardware.
 
 ## Parameter Passing
 This is still a bit in flux. The initial idea (although most certianly not religiously followed at this point) is documented
-in zasm.asm in the header:
+in [zasm.asm](zasm.asm) in the header:
 
 ### Passing conventions:
 
@@ -55,8 +55,10 @@ in zasm.asm in the header:
 
 Also, don't be shy with PUSH and POP to preserve registers. Just note that Z80 only allows
 16-bit stack PUSH/POPs, so:
+```
     PUSH AF   ; valid
     PUSH A    ; invalid
+```
 
 ## Coding Standards
 **Imporant! Spaces only. Indents (tabs) are 4 spaces.**
@@ -79,7 +81,7 @@ Each subroutine should have the following header:
   ```
   
 As emphasied above: **No tabs! Just spaces.** That said, the "tab stops" should be 4 characters.
-Always indent 4 spaces before any opcode (required by TASM as well as
+Always indent before any unlabled opcode (required by TASM as well as
 gentlemanly behavior). 
 
 Opcodes should have enough space after them that the opcode parameters
@@ -111,9 +113,12 @@ I've failed along those lines with no issues from TASM (e.g. [z80opcodes.asm](z8
 1. Label names should be on a separate line.
 
 2. Subroutine names are intended to be descriptive. Don't make them
-too long if you have branch labels (due to the 32-char limit noted
-below) because branches should all be preceded by the routine name,
-an underscore, and then a description of the branch. For example:
+too long if you need branch target labels.
+
+3. Branch target labels should all be preceded by the subroutine name and
+an underscore. Make them descriptive.
+
+For example:
 
   ```
    ;**********************************
@@ -126,17 +131,18 @@ an underscore, and then a description of the branch. For example:
    ;
    ; Outputs:
    ;   A - false/true
-   ;       0 - not alphabet character
-   ;       1 - is alphabet character
+   ;       0 - is not alphabetic character
+   ;       1 - is alphabetic character
    ;
    ; Side effects:
    ;   F - flags changed
    ;**********************************
    ; ISALPHA
    ISALPHA
+      AND   $7F   ; strip the 'inverse' bit
       CP    _A
       JR    C,ISALPHA_NOT_ALPHA ; < 'A'
-      CP    _Z
+      CP    _Z+1
       JR    NC,ISALPHA_NOT_ALPHA ; > 'Z'
       LD    A,1
       JR    ISALPHA_IS_ALPHA
