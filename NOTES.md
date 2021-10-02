@@ -11,3 +11,7 @@ At the point that unit testing needs to be added. Would be nice to have a script
 ## Current Work
 * Opcode diassembler
 * Z80 emulator
+
+## TODO
+* Rename the outliers like screen.asm, status.asm \*proc.asm. Holding off in part because some of these may end up being refactored as the editor progresses.
+* Improve the build.bat file. I'd prefer to use make but it doesn't come stock with Git Bash and I don't want to add more dependencies. Windows is such a pathetic development environment.
