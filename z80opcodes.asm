@@ -93,43 +93,101 @@ _Z80_BLI_OTIR    .byte _O,_T,_I,_R,$ff
 _Z80_BLI_OTDR    .byte _O,_T,_D,_R,$ff
 
 ; Unprefixed Opcodes
-;; x = 0
-; z = 0
+; I. x = 0
+;
+;   A. z = 0
+;       i) y=0..7
 _Z80_OP_NOP      .byte _N,_O,_P,$ff
 _Z80_OP_EXAFAF   .byte _E,_X,_SPACE,_A,_F,_COMMA,_A,_F,_GR_1000,$ff ; no apostrophe so using a graphic block
 _Z80_OP_DJNZ     .byte _D,_J,_N,_Z,$ff
 _Z80_OP_JR       .byte _J,_R,,$ff
-; z = 1
+;   B. z = 1
+;       i) q = 0,1
 _Z80_OP_LD       .byte _L,_D,$ff
 _Z80_OP_ADD_HL   .byte _A,_D,_D,_SPACE,_H,_L,_COMMA,$ff
-; z = 2
-_Z80_OP_LD_IND_BC_A      .byte _L,_D,_LPAREN,_B,_C,_RPAREN,_COMMA,_A,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; _Z80_OP_                 .byte ,$ff
-; ; z = 3
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; ; z = 4
-; _Z80_OP_      .byte ,$ff
-; ; z = 5
-; _Z80_OP_      .byte ,$ff
-; ; z = 6
-; _Z80_OP_      .byte ,$ff
-; ; z = 7
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
-; _Z80_OP_      .byte ,$ff
+;   C. z = 2
+;       i) q = 0
+;           a) p = 0..3
+_Z80_OP_LD_IND_BC_A      .byte _L,_D,_SPACE,_LPAREN,_B,_C,_RPAREN,_COMMA,_A,$ff
+_Z80_OP_LD_IND_DE_A      .byte _L,_D,_SPACE,_LPAREN,_D,_E,_RPAREN,_COMMA,_A,$ff
+_Z80_OP_LD_IND_nn_HL     .byte _L,_D,_SPACE,_LPAREN|$80,_RPAREN,_COMMA,_H,_L,$ff ; inverse '(' flags a fill location
+_Z80_OP_LD_IND_nn_A      .byte _L,_D,_SPACE,_LPAREN|$80,_RPAREN,_COMMA,_A,$ff ; inverse '(' flags a fill location
+;       ii) q = 1
+;           a) p = 0..3
+_Z80_OP_LD_A_IND_BC      .byte _L,_D,_SPACE,_A,_COMMA,_LPAREN,_B,_C,_RPAREN,$ff
+_Z80_OP_LD_A_IND_DE      .byte _L,_D,_SPACE,_A,_COMMA,_LPAREN,_D,_E,_RPAREN,$ff
+_Z80_OP_LD_IND_HL_nn     .byte _L,_D,_SPACE,_H,_L,_COMMA,_LPAREN|$80,_RPAREN,$ff ; inverse '(' flags a fill location
+_Z80_OP_LD_A_IND_nn      .byte _L,_D,_SPACE,_A,_COMMA,_LPAREN|$80,_RPAREN,,$ff ; inverse '(' flags a fill location
+;   D,E,F. z = 3,4,5
+;       i) q = 0,1 (for z=3)
+;
+_Z80_OP_INC              .byte _I,_N,_C,$ff
+_Z80_OP_DEC              .byte _D,_E,_C,$ff
+;   G. z = 6
+;       defined in B.i.
+;   H. z = 7
+;       i) y = 0..7
+_Z80_OP_RLCA             .byte _R,_L,_C,_A,$ff
+_Z80_OP_RRCA             .byte _R,_R,_C,_A,$ff
+_Z80_OP_RLA              .byte _R,_L,_A,$ff
+_Z80_OP_RRA              .byte _R,_R,_A,$ff
+_Z80_OP_DAA              .byte _D,_A,_A,$ff
+_Z80_OP_CPL              .byte _C,_P,_L,$ff
+_Z80_OP_SCF              .byte _S,_C,_F,$ff
+_Z80_OP_CCF              .byte _C,_C,_F,$ff
+; II. x = 1
+;   These are all 8-bit LD instructions except for
+;     z = 6
+_Z80_OP_HALT             .byte _H,_A,_L,_T,$ff
+; III. x = 2
+;   These are all of the ALU  instructions
+;
+; IV. x = 3
+;   A. z = 0
+_Z80_OP_RET              .byte _R,_E,_T,$ff ; conditional return
+;   B. z = 1
+;       a) q = 0
+_Z80_OP_POP              .byte _P,_O,_P,$ff
+;       b) q = 1
+;           i) p = 0..3
+;
+; p = 0 RET is already defined
+_Z80_OP_EXX              .byte _E,_X,_X,$ff
+_Z80_OP_JP_HL            .byte _J,_P,_SPACE,_H,_L$ff
+_Z80_OP_LD_SP_HL         .byte _L,_D,_SPACE,_S,_P,_COMMA,_H,_L,$ff
+;   C. z = 2
+_Z80_OP_JP               .byte _J,_P,$ff
+;   D. z = 3
+;       a) y = 0..7
+;
+; y = 0 JP is already defined, y = 1 is the CB prefix
+_Z80_OP_OUT_IND_nn_A     .byte _O,_U,_T,_SPACE,_LPAREN|$80,_RPAREN,_COMMA,_A,$ff ; inverse '(' flags a fill location
+_Z80_OP_IN_A_IND_nn      .byte _I,_N,_SPACE,_A,_COMMA,_LPAREN|$80,_RPAREN,$ff ; inverse '(' flags a fill location
+_Z80_OP_EX_IND_SP_HL     .byte _E,_X,_SPACE,_LPAREN,_S,_P,_RPAREN,_COMMA,_H,_L,$ff
+_Z80_OP_EX_DE_HL         .byte _E,_X,_SPACE,_D,_E,_RPAREN,_COMMA,_H,_L,$ff
+_Z80_OP_DI               .byte _D,_I,$ff
+_Z80_OP_EI               .byte _E,_I,$ff
+;   E. z = 4
+_Z80_OP_CALL             .byte _C,_A,_L,_L,$ff
+;   F. z = 5
+;       a) q = 0
+_Z80_OP_PUSH             .byte _P,_U,_S,_H,$ff
+;       b) q = 1
+;           i) p = 0
+; CALL is already defined
+;
+;           ii) p = 1 .. 3
+; DD, ED, FD prefixes
+;
+;   G. z = 6
+; ALU opcodes
+;
+;   H. z = 7
+_Z80_OP_RST              .byte _R,_S,_T,$ff
 
+;
+; Tables are arrays of pointers to strings
+;
 _TABLE_R
     .word _Z80_REG_B
     .word _Z80_REG_C
