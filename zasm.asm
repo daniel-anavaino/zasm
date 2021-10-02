@@ -4,22 +4,22 @@
 
 ;; Passing conventions:
 ;
-;	SETS/PRINTS/similar
-;		A	byte input 1	preserved
-;		B	byte input 2	preserved
-;		AF	word input 1	preserved
-;		BC	word input 2	preserved
-;		D	byte output
-;		DE	word output
-;		HL	pointer input	points to next address upon return if relevant
-;		
-;	GETS/FUNCTIONS/similar
-;		A	byte input 1	not preserved
-;		B	byte input 2	not preserved
-;		BC	word input 1	not preserved
-;		A	byte output
-;		BC	word output
-;		HL	pointer input	points to next address upon return if relevant
+;   SETS/PRINTS/similar
+;   	A -  byte input 1 (preserved)
+;   	B -  byte input 2 (preserved)
+;   	AF - word input 1 (preserved)
+;   	BC - word input 2 (preserved)
+;   	D -  byte output
+;   	DE - word output
+;   	HL - pointer input points to next address upon return if relevant
+;
+;   GETS/FUNCTIONS/similar
+;   	A -  byte input 1 (not preserved)
+;   	B -  byte input 2 (not preserved)
+;   	BC - word input 1 (not preserved)
+;   	A -  byte output
+;   	BC - word output
+;   	HL - pointer input points to next address upon return if relevant
 ;		
 ;; While it will be more memory efficient to hijack parts of the ROMs editing
 ;; and listing routines, to start with we'll just write it from scratch.
